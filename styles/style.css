@@ -1,0 +1,28 @@
+.color {
+    color: blue;
+    font-weight: bold;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+}
+.myCard {
+    border: 1px solid grey;
+    padding: 20px;
+}
+
+.displayArea {
+    background-color: grey;
+    margin: 20px;
+    margin-top: 0;
+    border-radius: 10px;
+    padding:10px
+    
+}
+
+.btn {
+    padding: 50px;
+    /* font-weight: bold; */
+    font-size:xx-large;
+}
