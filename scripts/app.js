@@ -46,11 +46,48 @@ let btnClear = document.getElementById("btnClear");
 
 let displayArea = document.getElementById("displayArea");
 
+let stringNumber = "";
+let operatorSaved = "";
+
+let num1 = 0;
+let num2 = 0;
+
+
+
 // lets test our buttons to see if they work
 // The following function dictates the behavior of our number keys
 function numberPress(btnNum){
-    alert("You pressed the " + btnNum + " key!");
+    // used below to see if our code and buttons are linked 
+    // alert("You pressed the " + btnNum + " key!");
+
+    //this will take the empty string build upon itself appended and then shows us in console log
+    stringNumber += btnNum;
+    console.log(stringNumber);
+    
+    // after pressing a button update the display
+    updateDisplay();
 }
+
+// operation pressed and saved to variable
+function opPress(op){
+    operatorSaved = op;
+    num1 = Number(stringNumber);  // this converts stringnumber to a number
+    stringNumber = "";
+}
+
+// this will show our inputs on the display
+function updateDisplay(){
+    //displayArea.innerText = stringNumber;
+
+    if(operatorSaved == ""){
+        displayArea.innerText = stringNumber;
+    }
+    else{
+        displayArea.innerText = num1 + " " + operatorSaved + " " + stringNumber;
+    }
+}
+
+// number events
 btn0.addEventListener("click", function(){
     numberPress("0")
 });
@@ -80,4 +117,19 @@ btn8.addEventListener("click", function(){
 });
 btn9.addEventListener("click", function(){
     numberPress("9")
+});
+
+
+// operator event listener
+btnPlus.addEventListener("click", function(){
+    opPress("+");
+});
+btnMinus.addEventListener("click", function(){
+    opPress("-");
+});
+btnMulti.addEventListener("click", function(){
+    opPress("*");
+});
+btnDivide.addEventListener("click", function(){
+    opPress("÷");
 });
