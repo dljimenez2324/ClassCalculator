@@ -51,7 +51,7 @@ let operatorSaved = "";
 
 let num1 = 0;
 let num2 = 0;
-
+let result = 0;
 
 
 // lets test our buttons to see if they work
@@ -73,6 +73,8 @@ function opPress(op){
     operatorSaved = op;
     num1 = Number(stringNumber);  // this converts stringnumber to a number
     stringNumber = "";
+
+    updateDisplay();
 }
 
 // this will show our inputs on the display
@@ -86,6 +88,9 @@ function updateDisplay(){
         displayArea.innerText = num1 + " " + operatorSaved + " " + stringNumber;
     }
 }
+
+
+
 
 // number events
 btn0.addEventListener("click", function(){
@@ -132,4 +137,26 @@ btnMulti.addEventListener("click", function(){
 });
 btnDivide.addEventListener("click", function(){
     opPress("÷");
+});
+
+
+// equal event listener
+btnEqual.addEventListener("click", function(){
+    num2 = Number(stringNumber);
+    stringNumber = "";
+    switch(operatorSaved){
+        case "+":
+            result = num1 + num2;
+            break;
+        case "-":
+            result = num1 - num2;
+            break;
+        case "*":
+            result = num1 * num2;
+            break;
+        case "÷":
+            result = num1 / num2
+            break;            
+    }
+    displayArea.innerText = result;
 });
