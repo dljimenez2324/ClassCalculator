@@ -45,6 +45,7 @@ let btnEqual = document.getElementById("btnEqual");
 let btnClear = document.getElementById("btnClear");
 
 let displayArea = document.getElementById("displayArea");
+let myPage = document.getElementById("myPage");
 
 let stringNumber = "";
 let operatorSaved = "";
@@ -60,6 +61,11 @@ function numberPress(btnNum){
     // used below to see if our code and buttons are linked 
     // alert("You pressed the " + btnNum + " key!");
 
+    // check if we completed a number
+    if(result !=0){
+        resetCalc();
+    }
+
     //this will take the empty string build upon itself appended and then shows us in console log
     stringNumber += btnNum;
     console.log(stringNumber);
@@ -70,10 +76,33 @@ function numberPress(btnNum){
 
 // operation pressed and saved to variable
 function opPress(op){
-    operatorSaved = op;
-    num1 = Number(stringNumber);  // this converts stringnumber to a number
-    stringNumber = "";
-
+    // if our result is NOT 0, we can assume we are trying to continue doing math with our current result as the first number
+    if(result !=0){
+        operatorSaved = op;
+        num1 = result;  // this converts stringnumber to a number
+        stringNumber = "";
+        result = 0;
+    }
+    // if we have our first number and have NOT started building our second number, change the operator
+    else if(num1 != 0 && stringNumber == ""){
+        operatorSaved = op;
+    }
+   
+    // if we have our first number and we have started building the second number, we want to "do math" and then continue on with our new operation
+    else if(num1 !=0 && stringNumber != ""){
+        doMath();
+        operatorSaved = op;
+        num1 = result;
+        stringNumber = "";
+        result = 0;
+    }
+    // by process of elimination we know that we were just building our 1st number and need to save it to continue on to building our second number
+    else{
+        operatorSaved = op;
+        num1 = Number(stringNumber);  // this converts stringnumber to a number
+        stringNumber = "";
+    }
+    
     updateDisplay();
 }
 
@@ -89,7 +118,54 @@ function updateDisplay(){
     }
 }
 
+// this function clears out the saved values so we start over completely
+function resetCalc(){
+     stringNumber = "";
+     operatorSaved = "";
+     num1 = 0;
+     num2 = 0;
+     result = 0; 
+     updateDisplay();
+}
 
+// clearing button
+btnClear.addEventListener("click", function(){
+    resetCalc();
+});
+
+function doMath(){
+    num2 = Number(stringNumber);
+    stringNumber = "";
+    switch(operatorSaved){
+        case "+":
+            result = num1 + num2;
+            break;
+        case "-":
+            result = num1 - num2;
+            break;
+        case "*":
+            result = num1 * num2;
+            break;
+        case "÷":
+            result = num1 / num2
+            break;            
+    }
+}
+
+// equal event listener
+btnEqual.addEventListener("click", function(){
+    doMath();
+    displayArea.innerText = result;
+});
+
+// return press down for equals event listener
+myPage.addEventListener("keypress", function(event){
+    if(event.key = "Enter"){
+        doMath();
+        displayArea.innerText = result;
+
+    }
+});
 
 
 // number events
@@ -140,23 +216,4 @@ btnDivide.addEventListener("click", function(){
 });
 
 
-// equal event listener
-btnEqual.addEventListener("click", function(){
-    num2 = Number(stringNumber);
-    stringNumber = "";
-    switch(operatorSaved){
-        case "+":
-            result = num1 + num2;
-            break;
-        case "-":
-            result = num1 - num2;
-            break;
-        case "*":
-            result = num1 * num2;
-            break;
-        case "÷":
-            result = num1 / num2
-            break;            
-    }
-    displayArea.innerText = result;
-});
+
